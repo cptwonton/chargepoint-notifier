@@ -10,6 +10,9 @@ from aws_cdk import (
 from constructs import Construct
 import os
 import json
+import subprocess
+import shutil
+import tempfile
 
 class ChargepointNotifierStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
@@ -27,7 +30,14 @@ class ChargepointNotifierStack(Stack):
             "sw_lon": -86.788501274255,
         }))
 
-        # Lambda function
+        # Lambda function with layer for dependencies
+        lambda_layer = _lambda.LayerVersion(
+            self, "RequestsLayer",
+            code=_lambda.Code.from_asset("lambda_layer"),
+            compatible_runtimes=[_lambda.Runtime.PYTHON_3_11],
+            description="Layer containing requests library"
+        )
+
         lambda_fn = _lambda.Function(
             self, "ChargepointPoller",
             runtime=_lambda.Runtime.PYTHON_3_11,
@@ -38,7 +48,8 @@ class ChargepointNotifierStack(Stack):
                 "SNS_TOPIC_ARN": topic.topic_arn,
                 "STATION_NAME_FILTER": station_name_filter,
                 "BOUND_BOX_JSON": bound_box_json
-            }
+            },
+            layers=[lambda_layer]
         )
 
         topic.grant_publish(lambda_fn)

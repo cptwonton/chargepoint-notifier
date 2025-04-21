@@ -41,7 +41,13 @@ cp .env.example .env
 ```
 Edit the `.env` file with your AWS account details and configuration preferences.
 
-5. Deploy the stack
+5. Make sure you have valid AWS credentials
+```
+aws sts get-caller-identity
+```
+If this fails, you may need to run `aws sso login` or configure your AWS credentials.
+
+6. Deploy the stack
 ```
 ./deploy.sh
 ```
@@ -50,6 +56,7 @@ Edit the `.env` file with your AWS account details and configuration preferences
 
 - `app.py` - CDK application entry point
 - `chargepoint_notifier/` - CDK stack definition
+  - `chargepoint_notifier_stack.py` - Main stack definition
 - `lambda/` - Lambda function code
   - `poller.py` - Main Lambda function that polls the ChargePoint API
 - `deploy.sh` - Deployment script that loads environment variables
@@ -59,7 +66,6 @@ Edit the `.env` file with your AWS account details and configuration preferences
 The application uses the following environment variables:
 - `DEV_AWS_ACCOUNT` - AWS account ID for deployment
 - `DEV_AWS_REGION` - AWS region for deployment
-- `SNS_TOPIC_ARN` - ARN of the SNS topic for notifications
 - `STATION_NAME_FILTER` - Filter for station names (default: "BNA12")
 - `BOUND_BOX_JSON` - Geographic bounding box for the API query
 

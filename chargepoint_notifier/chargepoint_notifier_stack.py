@@ -18,6 +18,15 @@ class ChargepointNotifierStack(Stack):
         # SNS Topic (optional for now)
         topic = sns.Topic(self, "ChargerAlertTopic")
 
+        # Get environment variables or use defaults
+        station_name_filter = os.environ.get("STATION_NAME_FILTER", "BNA12")
+        bound_box_json = os.environ.get("BOUND_BOX_JSON", json.dumps({
+            "ne_lat": 36.16047351072966,
+            "ne_lon": -86.78688390221902,
+            "sw_lat": 36.159961361555496,
+            "sw_lon": -86.788501274255,
+        }))
+
         # Lambda function
         lambda_fn = _lambda.Function(
             self, "ChargepointPoller",
@@ -27,13 +36,8 @@ class ChargepointNotifierStack(Stack):
             timeout=Duration.seconds(30),
             environment={
                 "SNS_TOPIC_ARN": topic.topic_arn,
-                "STATION_NAME_FILTER": "BNA12",
-                "BOUND_BOX_JSON": json.dumps({
-                    "ne_lat": 36.16047351072966,
-                    "ne_lon": -86.78688390221902,
-                    "sw_lat": 36.159961361555496,
-                    "sw_lon": -86.788501274255,
-                })
+                "STATION_NAME_FILTER": station_name_filter,
+                "BOUND_BOX_JSON": bound_box_json
             }
         )
 

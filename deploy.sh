@@ -15,6 +15,9 @@ if [ -z "$DEV_AWS_ACCOUNT" ] || [ -z "$DEV_AWS_REGION" ]; then
   exit 1
 fi
 
+# Set AWS region for this session
+export AWS_REGION=$DEV_AWS_REGION
+
 # Deploy the stack
 echo "Deploying to AWS account $DEV_AWS_ACCOUNT in region $DEV_AWS_REGION"
 cdk deploy "$@"

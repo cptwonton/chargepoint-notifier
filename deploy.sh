@@ -26,6 +26,6 @@ if ! aws sts get-caller-identity &>/dev/null; then
   exit 1
 fi
 
-# Deploy the stack using the specified role
+# Deploy the stack
 echo "Deploying to AWS account $DEV_AWS_ACCOUNT in region $DEV_AWS_REGION"
-cdk deploy --role-arn arn:aws:iam::$DEV_AWS_ACCOUNT:role/cloudauth-role "$@"
+cdk deploy "$@"

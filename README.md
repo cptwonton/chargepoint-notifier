@@ -43,7 +43,7 @@ Edit the `.env` file with your AWS account details and configuration preferences
 
 5. Deploy the stack
 ```
-cdk deploy
+./deploy.sh
 ```
 
 ## 📋 Project Structure
@@ -52,12 +52,13 @@ cdk deploy
 - `chargepoint_notifier/` - CDK stack definition
 - `lambda/` - Lambda function code
   - `poller.py` - Main Lambda function that polls the ChargePoint API
+- `deploy.sh` - Deployment script that loads environment variables
 
 ## 🔧 Configuration
 
 The application uses the following environment variables:
-- `CDK_DEPLOY_ACCOUNT` - AWS account ID for deployment
-- `CDK_DEPLOY_REGION` - AWS region for deployment
+- `DEV_AWS_ACCOUNT` - AWS account ID for deployment
+- `DEV_AWS_REGION` - AWS region for deployment
 - `SNS_TOPIC_ARN` - ARN of the SNS topic for notifications
 - `STATION_NAME_FILTER` - Filter for station names (default: "BNA12")
 - `BOUND_BOX_JSON` - Geographic bounding box for the API query
@@ -73,6 +74,6 @@ The application uses the following environment variables:
 
 * `cdk ls`          list all stacks in the app
 * `cdk synth`       emits the synthesized CloudFormation template
-* `cdk deploy`      deploy this stack to your default AWS account/region
+* `./deploy.sh`     deploy this stack using environment variables
 * `cdk diff`        compare deployed stack with current state
 * `cdk docs`        open CDK documentation

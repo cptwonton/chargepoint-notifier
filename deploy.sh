@@ -17,6 +17,14 @@ fi
 
 # Set AWS region for this session
 export AWS_REGION=$DEV_AWS_REGION
+export AWS_DEFAULT_REGION=$DEV_AWS_REGION
+
+# Check AWS credentials
+echo "Checking AWS credentials..."
+if ! aws sts get-caller-identity &>/dev/null; then
+  echo "AWS credentials not found or expired. Please run 'aws sso login' or configure your AWS credentials."
+  exit 1
+fi
 
 # Deploy the stack
 echo "Deploying to AWS account $DEV_AWS_ACCOUNT in region $DEV_AWS_REGION"

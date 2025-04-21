@@ -1,58 +1,70 @@
+# ⚡️ ChargePoint Notifier
 
-# Welcome to your CDK Python project!
+A Python-based, AWS-hosted application that notifies you when a ChargePoint charger becomes available at a specific location.
 
-This is a blank project for CDK development with Python.
+## 🎯 Project Overview
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This project uses AWS CDK to deploy a serverless infrastructure that:
+- Polls the ChargePoint API every 5 minutes
+- Filters for available chargers at a specific location (currently BNA12 stations in Nashville)
+- Sends notifications via SNS when chargers become available
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+## 🚀 Getting Started
 
-To manually create a virtualenv on MacOS and Linux:
+### Prerequisites
+- Python 3.9+
+- AWS CLI configured with appropriate credentials
+- AWS CDK installed
 
+### Setup
+
+1. Clone the repository
 ```
-$ python3 -m venv .venv
-```
-
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
-
-```
-$ source .venv/bin/activate
-```
-
-If you are a Windows platform, you would activate the virtualenv like this:
-
-```
-% .venv\Scripts\activate.bat
+git clone https://github.com/yourusername/chargepoint-notifier.git
+cd chargepoint-notifier
 ```
 
-Once the virtualenv is activated, you can install the required dependencies.
-
+2. Create and activate a virtual environment
 ```
-$ pip install -r requirements.txt
-```
-
-At this point you can now synthesize the CloudFormation template for this code.
-
-```
-$ cdk synth
+python3 -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate.bat
 ```
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+3. Install dependencies
+```
+pip install -r requirements.txt
+```
 
-## Useful commands
+4. Deploy the stack
+```
+cdk deploy
+```
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+## 📋 Project Structure
 
-Enjoy!
+- `app.py` - CDK application entry point
+- `chargepoint_notifier/` - CDK stack definition
+- `lambda/` - Lambda function code
+  - `poller.py` - Main Lambda function that polls the ChargePoint API
+
+## 🔧 Configuration
+
+The application uses the following environment variables:
+- `SNS_TOPIC_ARN` - ARN of the SNS topic for notifications
+- `STATION_NAME_FILTER` - Filter for station names (default: "BNA12")
+- `BOUND_BOX_JSON` - Geographic bounding box for the API query
+
+## 📝 Future Enhancements
+
+- Add state caching to avoid redundant notifications
+- Implement a web UI for configuration
+- Support multiple locations
+- Add analytics dashboard
+
+## 📚 Useful CDK Commands
+
+* `cdk ls`          list all stacks in the app
+* `cdk synth`       emits the synthesized CloudFormation template
+* `cdk deploy`      deploy this stack to your default AWS account/region
+* `cdk diff`        compare deployed stack with current state
+* `cdk docs`        open CDK documentation

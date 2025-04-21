@@ -41,13 +41,21 @@ cp .env.example .env
 ```
 Edit the `.env` file with your AWS account details and configuration preferences.
 
-5. Make sure you have valid AWS credentials
-```
-aws sts get-caller-identity
-```
-If this fails, you may need to refresh your credentials.
+5. Set up AWS credentials
+   
+   Option 1: Use existing credentials
+   ```
+   aws sts get-caller-identity
+   ```
+   If this fails, you may need to refresh your credentials.
+   
+   Option 2: Set credentials from JSON (useful with temporary credentials)
+   ```
+   ./set-aws-creds.sh '{"AccessKeyId":"ASIA...","SecretAccessKey":"...","SessionToken":"..."}'
+   ```
+   This will set the credentials and run the deployment automatically.
 
-6. Deploy the stack
+6. Deploy the stack (if using Option 1 for credentials)
 ```
 ./deploy.sh
 ```
@@ -61,6 +69,7 @@ The deployment script will use the `cloudauth-role` IAM role for deployment.
 - `lambda/` - Lambda function code
   - `poller.py` - Main Lambda function that polls the ChargePoint API
 - `deploy.sh` - Deployment script that loads environment variables
+- `set-aws-creds.sh` - Helper script to set AWS credentials from JSON
 
 ## 🔧 Configuration
 

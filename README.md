@@ -45,12 +45,13 @@ Edit the `.env` file with your AWS account details and configuration preferences
 ```
 aws sts get-caller-identity
 ```
-If this fails, you may need to run `aws sso login` or configure your AWS credentials.
+If this fails, you may need to refresh your credentials.
 
 6. Deploy the stack
 ```
 ./deploy.sh
 ```
+The deployment script will use the `cloudauth-role` IAM role for deployment.
 
 ## 📋 Project Structure
 

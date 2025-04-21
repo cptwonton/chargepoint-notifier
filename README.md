@@ -20,7 +20,7 @@ This project uses AWS CDK to deploy a serverless infrastructure that:
 
 1. Clone the repository
 ```
-git clone https://github.com/yourusername/chargepoint-notifier.git
+git clone https://github.com/cptwonton/chargepoint-notifier.git
 cd chargepoint-notifier
 ```
 
@@ -35,7 +35,13 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate.bat
 pip install -r requirements.txt
 ```
 
-4. Deploy the stack
+4. Set up environment variables
+```
+cp .env.example .env
+```
+Edit the `.env` file with your AWS account details and configuration preferences.
+
+5. Deploy the stack
 ```
 cdk deploy
 ```
@@ -50,6 +56,8 @@ cdk deploy
 ## 🔧 Configuration
 
 The application uses the following environment variables:
+- `CDK_DEPLOY_ACCOUNT` - AWS account ID for deployment
+- `CDK_DEPLOY_REGION` - AWS region for deployment
 - `SNS_TOPIC_ARN` - ARN of the SNS topic for notifications
 - `STATION_NAME_FILTER` - Filter for station names (default: "BNA12")
 - `BOUND_BOX_JSON` - Geographic bounding box for the API query
